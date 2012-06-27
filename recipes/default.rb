@@ -25,6 +25,15 @@ bash "remove the elasticsearch user home" do
   only_if "test -d #{node.elasticsearch[:dir]}/elasticsearch"
 end
 
+ark "elasticsearch" do
+  url "https://github.com/downloads/elasticsearch/elasticsearch/#{elasticsearch}.tar.gz"
+  owner node.elasticsearch[:user]
+  group node.elasticsearch[:user]
+  version node.elasticsearch[:version]
+  has_binaries ['bin/elasticsearch', 'bin/plugin' ]
+  checksum node.elasticsearch[:checksum]
+end
+
 # Create ES directories
 #
 %w| conf_path data_path log_path pid_path |.each do |path|
@@ -113,4 +122,3 @@ else
   # ... if we aren't using monit, let's reopen the elasticsearch service and start it
   service("elasticsearch") { action :start }
 end
-

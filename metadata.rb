@@ -7,6 +7,7 @@ version          "0.0.2"
 
 depends 'ark'
 depends 'java'
+depends 'logrotate'
 
 recommends 'monit'
 recommends 'nginx'

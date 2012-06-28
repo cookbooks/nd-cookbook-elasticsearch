@@ -2,6 +2,7 @@ elasticsearch = "elasticsearch-#{node.elasticsearch[:version]}"
 
 include_recipe "elasticsearch::curl"
 include_recipe "ark"
+include_recipe "logrotate"
 
 # Create user and group
 #
@@ -121,4 +122,11 @@ if node.recipes.include?('monit')
 else
   # ... if we aren't using monit, let's reopen the elasticsearch service and start it
   service("elasticsearch") { action :start }
+end
+
+logrotate_app "elasticsearch" do
+  path "#{node['elasticsearch']['log_path']}/*.log"
+  frequency "daily"
+  create    "664 #{node['elasticsearch']['user']} #{node['elasticsearch']['user']}"
+  rotate "30"
 end

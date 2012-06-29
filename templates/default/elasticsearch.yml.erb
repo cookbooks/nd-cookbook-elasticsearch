@@ -36,6 +36,9 @@ discovery.ec2.groups: '<%= node.elasticsearch[:cloud][:ec2][:security_group] %>'
 cloud.node.auto_attributes: true
 cloud.aws.access_key: '<%= node.elasticsearch[:cloud][:aws][:access_key] %>'
 cloud.aws.secret_key: '<%= node.elasticsearch[:cloud][:aws][:secret_key] %>'
+<% if node.elasticsearch[:discovery][:type] == 'ec2' %>
+discovery.ec2.tag.Environment: <%= node.chef_environment %>
+<% end %>
 <% end %>
 
 <% if node.elasticsearch[:gateway][:type] %>

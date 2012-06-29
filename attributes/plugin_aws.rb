@@ -1,6 +1,9 @@
 # Load configuration and credentials from data bag 'elasticsearch/aws' -
 #
-aws = Chef::DataBagItem.load('elasticsearch', 'aws') rescue {}
+data_bag_key = Chef::EncryptedDataBagItem.load_secret(node['data_bag_key'])
+secrets = Chef::EncryptedDataBagItem.load("secrets", node.chef_environment, data_bag_key)
+
+aws = secrets['aws'] rescue {}
 # ----------------------------------------------------------------------
 
 default.elasticsearch[:plugin][:aws][:version] = '1.5.0'
@@ -14,5 +17,5 @@ default.elasticsearch[:discovery][:type]             = ( aws['discovery']['type'
 default.elasticsearch[:gateway][:s3][:bucket]        = ( aws['gateway']['s3']['bucket']        rescue nil )
 
 default.elasticsearch[:cloud][:ec2][:security_group] = ( aws['cloud']['ec2']['security_group'] rescue nil )
-default.elasticsearch[:cloud][:aws][:access_key]     = ( aws['cloud']['aws']['access_key']     rescue nil )
-default.elasticsearch[:cloud][:aws][:secret_key]     = ( aws['cloud']['aws']['secret_key']     rescue nil )
+default.elasticsearch[:cloud][:aws][:access_key]     = ( aws['aws_access_key_id']     rescue nil )
+default.elasticsearch[:cloud][:aws][:secret_key]     = ( aws['aws_secret_access_key']     rescue nil )

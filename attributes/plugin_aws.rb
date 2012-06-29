@@ -1,6 +1,6 @@
 # Load configuration and credentials from data bag 'elasticsearch/aws' -
 #
-data_bag_key = Chef::EncryptedDataBagItem.load_secret(node['data_bag_key'])
+data_bag_key = Chef::EncryptedDataBagItem.load_secret(node['data_bag_key']) rescue {}
 secrets = Chef::EncryptedDataBagItem.load("secrets", node.chef_environment, data_bag_key) rescue {}
 
 aws = secrets['aws'] rescue {}

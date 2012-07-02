@@ -1,5 +1,9 @@
 elasticsearch = "elasticsearch-#{node.elasticsearch[:version]}"
 
+=======
+# Include the `curl` recipe, needed by `service status`
+#
+include_recipe "java"
 include_recipe "elasticsearch::curl"
 include_recipe "ark"
 include_recipe "logrotate"

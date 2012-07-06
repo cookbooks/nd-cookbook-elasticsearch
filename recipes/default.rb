@@ -8,16 +8,17 @@ secrets = begin
         { "aws" => { "elasticsearch" => { "access_key_id" => nil, "secret_access_key" => nil } } }
       end
 
+@aws = Hash.new
 unless node.elasticsearch[:cloud][:aws][:access_key] and node.elasticsearch[:cloud][:aws][:secret_key]
-  @aws = {
+  @aws.merge!({
     "access_key" => secrets['aws']['elasticsearch']['access_key_id'],
     "secret_key" => secrets['aws']['elasticsearch']['secret_access_key']
-  }
+  })
 else
-  @aws = {
+  @aws.merge!({
     "access_key" => node.elasticsearch[:cloud][:aws][:access_key],
     "secret_key" => node.elasticsearch[:cloud][:aws][:secret_key]
-  }
+  })
 end
 
 # Include the `curl` recipe, needed by `service status`

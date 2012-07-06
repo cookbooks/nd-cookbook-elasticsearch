@@ -8,13 +8,13 @@ secrets = begin
         { "aws" => { "elasticsearch" => { "access_key_id" => nil, "secret_access_key" => nil } } }
       end
 
-unless node.elasticsearch[:cloud][:aws][:access_key] and node.elasticsearch[:cloud][:aws][:secret_key]
-  @aws = {
+@aws = unless node.elasticsearch[:cloud][:aws][:access_key] and node.elasticsearch[:cloud][:aws][:secret_key]
+  {
     "access_key" => secrets['aws']['elasticsearch']['access_key_id'],
     "secret_key" => secrets['aws']['elasticsearch']['secret_access_key']
   }
 else
-  @aws = {
+  {
     "access_key" => node.elasticsearch[:cloud][:aws][:access_key],
     "secret_key" => node.elasticsearch[:cloud][:aws][:secret_key]
   }

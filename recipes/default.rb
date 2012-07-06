@@ -8,7 +8,7 @@ secrets = begin
         { "aws" => { "elasticsearch" => { "access_key_id" => nil, "secret_access_key" => nil } } }
       end
 
-@aws = unless node.elasticsearch[:cloud][:aws][:access_key] and node.elasticsearch[:cloud][:aws][:secret_key]
+aws = unless node.elasticsearch[:cloud][:aws][:access_key] and node.elasticsearch[:cloud][:aws][:secret_key]
   {
     "access_key" => secrets['aws']['elasticsearch']['access_key_id'],
     "secret_key" => secrets['aws']['elasticsearch']['secret_access_key']
@@ -135,7 +135,7 @@ template "elasticsearch.yml" do
   path   "#{node.elasticsearch[:conf_path]}/elasticsearch.yml"
   source "elasticsearch.yml.erb"
   owner node.elasticsearch[:user] and group node.elasticsearch[:user] and mode 0755
-  variables( :aws => @aws )
+  variables( :aws => aws )
 
   notifies :restart, resources(:service => 'elasticsearch')
 end

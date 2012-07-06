@@ -32,10 +32,10 @@ discovery.type: <%= node.elasticsearch[:discovery][:type] %>
 discovery.ec2.groups: '<%= node.elasticsearch[:cloud][:ec2][:security_group] %>'
 <% end %>
 
-<% unless node.elasticsearch[:cloud][:aws].values.compact.empty? %>
+<% unless @aws.values.compact.empty? %>
 cloud.node.auto_attributes: true
-cloud.aws.access_key: '<%= node.elasticsearch[:cloud][:aws][:access_key] %>'
-cloud.aws.secret_key: '<%= node.elasticsearch[:cloud][:aws][:secret_key] %>'
+cloud.aws.access_key: '<%= @aws[:access_key] %>'
+cloud.aws.secret_key: '<%= @aws[:secret_key] %>'
 <% if node.elasticsearch[:discovery][:type] == 'ec2' %>
 discovery.ec2.tag.Environment: <%= node.chef_environment %>
 discovery.ec2.tag.ElasticSearchCluster: <%= node.elasticsearch[:cluster_name] %> 

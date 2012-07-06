@@ -1,7 +1,12 @@
 include_recipe 'aws'
 
 data_bag_key = Chef::EncryptedDataBagItem.load_secret(node['data_bag_key'])
-secrets = Chef::EncryptedDataBagItem.load("secrets", node.chef_environment, data_bag_key)
+secrets = begin
+			Chef::EncryptedDataBagItem.load("secrets", node.chef_environment, data_bag_key)
+		  rescue => e
+        Chef::Log.error("Failed to load secrets data bag: "+ e.inspect)
+        { "aws" => { "elasticsearch" => { "access_key_id" => nil, "secret_access_key" => nil } } }
+      end
 
 case node.elasticsearch[:cluster_name]
 when "elasticsearch"

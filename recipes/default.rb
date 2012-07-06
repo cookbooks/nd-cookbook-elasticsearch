@@ -1,6 +1,13 @@
 elasticsearch = "elasticsearch-#{node.elasticsearch[:version]}"
 
-=======
+data_bag_key = Chef::EncryptedDataBagItem.load_secret(node['data_bag_key'])
+secrets = begin
+      Chef::EncryptedDataBagItem.load("secrets", node.chef_environment, data_bag_key)
+      rescue => e
+        Chef::Log.error("Failed to load secrets data bag: "+ e.inspect)
+        { "aws" => { "elasticsearch" => { "access_key_id" => nil, "secret_access_key" => nil } } }
+      end
+
 # Include the `curl` recipe, needed by `service status`
 #
 include_recipe "java"
@@ -114,6 +121,18 @@ template "elasticsearch.yml" do
   path   "#{node.elasticsearch[:conf_path]}/elasticsearch.yml"
   source "elasticsearch.yml.erb"
   owner node.elasticsearch[:user] and group node.elasticsearch[:user] and mode 0755
+
+  unless node.elasticsearch[:cloud][:aws][:access_key] and node.elasticsearch[:cloud][:aws][:secret_key]
+    variables( :aws => {
+      "access_key" => secrets['aws']['elasticsearch']['access_key_id'],
+      "secret_key" => secrets['aws']['elasticsearch']['secret_access_key']
+      })
+  else
+    variables( :aws => {
+        "access_key" => node.elasticsearch[:cloud][:aws][:access_key],
+        "secret_key" => node.elasticsearch[:cloud][:aws][:secret_key]
+      })
+  end
 
   notifies :restart, resources(:service => 'elasticsearch')
 end

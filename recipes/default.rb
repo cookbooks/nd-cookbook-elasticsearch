@@ -20,6 +20,8 @@ else
   }
 end
 
+Chef::Log.debug("AWS credentials: "+@aws.inspect)
+
 # Include the `curl` recipe, needed by `service status`
 #
 include_recipe "java"

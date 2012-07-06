@@ -14,8 +14,11 @@ if node.has_key?('ec2')
 	aws_resource_tag node['ec2']['instance_id'] do
 		aws_access_key secrets['aws']['elasticsearch']['access_key_id']
 		aws_secret_access_key secrets['aws']['elasticsearch']['secret_access_key']
-		tags({"Name" => nametag,
-			"Environment" => node.chef_environment})
+		tags({
+				"Name" => nametag,
+				"Environment" => node.chef_environment,
+				"ElasticSearchCluster" => node.elasticsearch[:cluster_name]
+			})
 		action :update
 	end
 end

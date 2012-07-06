@@ -12,8 +12,8 @@ end
 
 if node.has_key?('ec2')
 	aws_resource_tag node['ec2']['instance_id'] do
-		aws_access_key secrets['aws']['elasticsearch']['aws_access_key_id']
-		aws_secret_access_key secrets['aws']['elasticsearch']['aws_secret_access_key']
+		aws_access_key secrets['aws']['elasticsearch']['access_key_id']
+		aws_secret_access_key secrets['aws']['elasticsearch']['secret_access_key']
 		tags({"Name" => nametag,
 			"Environment" => node.chef_environment})
 		action :update

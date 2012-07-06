@@ -135,7 +135,7 @@ template "elasticsearch.yml" do
   path   "#{node.elasticsearch[:conf_path]}/elasticsearch.yml"
   source "elasticsearch.yml.erb"
   owner node.elasticsearch[:user] and group node.elasticsearch[:user] and mode 0755
-  variables({ :aws => @aws })
+  variables( :aws => @aws )
 
   notifies :restart, resources(:service => 'elasticsearch')
 end

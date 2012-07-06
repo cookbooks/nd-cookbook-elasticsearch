@@ -134,7 +134,6 @@ template "elasticsearch.yml" do
   source "elasticsearch.yml.erb"
   owner node.elasticsearch[:user] and group node.elasticsearch[:user] and mode 0755
   variables({ :aws => @aws })
-  end
 
   notifies :restart, resources(:service => 'elasticsearch')
 end

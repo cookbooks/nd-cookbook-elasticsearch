@@ -37,8 +37,8 @@ cloud.node.auto_attributes: true
 cloud.aws.access_key: '<%= @aws['access_key'] %>'
 cloud.aws.secret_key: '<%= @aws['secret_key'] %>'
 <% if node.elasticsearch[:discovery][:type] == 'ec2' %>
-discovery.ec2.tag.Environment: <%= node.chef_environment %>
-discovery.ec2.tag.ElasticSearchCluster: <%= node.elasticsearch[:cluster_name] %> 
+discovery.ec2.tag.Environment: '<%= node.chef_environment %>'
+discovery.ec2.tag.ElasticSearchCluster: '<%= node.elasticsearch[:cluster_name] %>'
 <% end %>
 <% end %>
 

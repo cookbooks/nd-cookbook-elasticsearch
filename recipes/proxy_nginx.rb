@@ -1,9 +1,16 @@
 # Create proxy with HTTP authentication via Nginx
 #
-template "#{node.elasticsearch[:nginx][:dir]}/conf.d/elasticsearch_proxy_nginx.conf" do
+
+include_recipe 'nginx'
+
+template "#{node.elasticsearch[:nginx][:dir]}/sites-available/elasticsearch_proxy_nginx.conf" do
   source "elasticsearch_proxy_nginx.conf.erb"
   owner node.elasticsearch[:nginx][:user] and group node.elasticsearch[:nginx][:user] and mode 0755
   notifies :restart, resources(:service => "nginx")
+end
+
+nginx_site "elasticsearch_proxy_nginx" do
+  enable true
 end
 
 unless node.elasticsearch[:nginx][:users].empty?

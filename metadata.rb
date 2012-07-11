@@ -9,9 +9,9 @@ depends 'ark'
 depends 'java'
 depends 'logrotate'
 depends 'aws'
+depends 'nginx'
 
 recommends 'monit'
-recommends 'nginx'
 
 provides 'elasticsearch'
 provides 'service[elasticsearch]'

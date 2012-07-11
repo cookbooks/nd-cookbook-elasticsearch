@@ -9,7 +9,7 @@ template "#{node.elasticsearch[:nginx][:dir]}/sites-available/elasticsearch_prox
   notifies :restart, resources(:service => "nginx")
 end
 
-nginx_site "elasticsearch_proxy_nginx" do
+nginx_site "elasticsearch_proxy_nginx.conf" do
   enable true
 end
 

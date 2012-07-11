@@ -6,10 +6,10 @@ long_description IO.read(File.join(File.dirname(__FILE__), 'README.markdown'))
 version          "0.0.2"
 
 depends 'ark'
+depends 'nginx'
 
 recommends 'java'
 recommends 'monit'
-recommends 'nginx'
 
 provides 'elasticsearch'
 provides 'service[elasticsearch]'
